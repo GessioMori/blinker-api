@@ -1,6 +1,10 @@
+import { User } from "@prisma/client";
 import { Request, Response } from "express";
-import { inject, injectable } from "tsyringe";
+import passport from "passport";
+import { Strategy as LocalStrategy } from "passport-local";
+import { container, inject, injectable } from "tsyringe";
 import { AuthService } from "./auth.service";
+import { createLocalStrategy } from "./passport/strategies/local.strategy";
 
 @injectable()
 export class AuthController {
@@ -8,19 +12,26 @@ export class AuthController {
     @inject("AuthService") private readonly authService: AuthService
   ) {}
 
-  async handleLogin(request: Request, response: Response) {
-    const { email, password } = request.body;
-
-    const user = await this.authService.login({ email, password });
-
-    request.session.user = user;
-
-    return response.json(user);
+  getUser(request: Request, response: Response) {
+    if (!request.user) return response.status(401).send("Unauthorized");
+    return response.send(request.user);
   }
 
-  async getUser(request: Request, response: Response) {
-    const { user } = request.session;
+  initialize() {
+    passport.use(
+      "local",
+      createLocalStrategy(this.authService.login.bind(this.authService))
+    );
 
-    return response.json(request.session);
+    passport.serializeUser((user, done) => {
+      done(null, user);
+    });
+
+    passport.deserializeUser((user: User, done) => {
+      if (!user) {
+        done(null, false);
+      }
+      done(null, user);
+    });
   }
 }

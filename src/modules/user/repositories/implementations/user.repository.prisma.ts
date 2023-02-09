@@ -1,11 +1,11 @@
 import prisma from "./../../../../db/prisma";
 import { injectable } from "tsyringe";
-import { createUserInputType, userOutputType } from "../../user.schema";
+import { CreateUserInputType, UserType } from "../../user.schema";
 import { UserRepository } from "../user.repository";
 
 @injectable()
 export class PrismaUserRepository implements UserRepository {
-  async create(user: createUserInputType): Promise<userOutputType> {
+  async create(user: CreateUserInputType): Promise<UserType> {
     return await prisma.user.create({
       data: {
         name: user.name,
@@ -15,7 +15,7 @@ export class PrismaUserRepository implements UserRepository {
     });
   }
 
-  async findById(id: number): Promise<userOutputType | null> {
+  async findById(id: number): Promise<UserType | null> {
     return await prisma.user.findUnique({
       where: {
         id,
@@ -23,7 +23,7 @@ export class PrismaUserRepository implements UserRepository {
     });
   }
 
-  async findByEmail(email: string): Promise<userOutputType | null> {
+  async findByEmail(email: string): Promise<UserType | null> {
     return await prisma.user.findUnique({
       where: {
         email,

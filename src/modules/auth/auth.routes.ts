@@ -1,12 +1,18 @@
 import { Router } from "express";
 import { container } from "tsyringe";
 import { AuthController } from "./auth.controller";
-
-const authController = container.resolve(AuthController);
+import passport from "passport";
 
 const authRouter = Router();
 
-authRouter.post("/login", authController.handleLogin.bind(authController));
-authRouter.get("/user", authController.getUser.bind(authController));
+const authController = container.resolve(AuthController);
+
+authController.initialize.bind(authController)();
+
+authRouter.post(
+  "/login",
+  passport.authenticate("local"),
+  authController.getUser.bind(authController)
+);
 
 export { authRouter };

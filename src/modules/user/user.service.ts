@@ -1,7 +1,8 @@
 import { inject, injectable } from "tsyringe";
 import { UserRepository } from "./repositories/user.repository";
-import { createUserInputType, userOutputType } from "./user.schema";
+import { CreateUserInputType, UserOutputType } from "./user.schema";
 import { hash } from "argon2";
+import { AppError } from "./../../utils/errors/AppError";
 
 @injectable()
 export class UserService {
@@ -13,10 +14,12 @@ export class UserService {
     email,
     name,
     password,
-  }: createUserInputType): Promise<userOutputType> {
+  }: CreateUserInputType): Promise<UserOutputType> {
     const userExists = await this.userRepository.findByEmail(email);
 
-    if (userExists) throw new Error("User already exists");
+    if (userExists) {
+      throw new AppError("User already exists", 400);
+    }
 
     const hashedPassword = await hash(password);
 
@@ -26,6 +29,8 @@ export class UserService {
       password: hashedPassword,
     });
 
-    return newUser;
+    const { password: _, ...parsedUser } = newUser;
+
+    return parsedUser;
   }
 }

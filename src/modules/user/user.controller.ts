@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { container, inject, injectable } from "tsyringe";
+import { inject, injectable } from "tsyringe";
 import { UserService } from "./user.service";
 
 @injectable()
@@ -8,7 +8,10 @@ export class UserController {
     @inject("UserService") private readonly userService: UserService
   ) {}
 
-  async handleCreateUser(request: Request, response: Response) {
+  async handleCreateUser(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
     const { name, email, password } = request.body;
 
     const newUser = await this.userService.createUser({
