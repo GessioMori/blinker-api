@@ -7,6 +7,9 @@ import passport from "passport";
 import { userRouter } from "./modules/user/user.routes";
 import { authRouter } from "./modules/auth/auth.routes";
 import { errorHandler } from "./utils/errors/errorHandler";
+import connectRedis from "connect-redis";
+import { redisClient } from "./redis/redisClient";
+import { redisStore } from "./redis/redisStore";
 
 const app = express();
 
@@ -14,6 +17,7 @@ app.use(express.json());
 
 app.use(
   session({
+    store: redisStore,
     secret: "secret",
     resave: false,
     saveUninitialized: false,

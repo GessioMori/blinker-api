@@ -2,7 +2,7 @@ import { User } from "@prisma/client";
 import { Request, Response } from "express";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import { container, inject, injectable } from "tsyringe";
+import { inject, injectable } from "tsyringe";
 import { AuthService } from "./auth.service";
 import { createLocalStrategy } from "./passport/strategies/local.strategy";
 

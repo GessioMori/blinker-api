@@ -1,7 +1,7 @@
-import prisma from "./../../../../db/prisma";
+import prisma from "@/db/prisma";
 import { injectable } from "tsyringe";
-import { CreateUserInputType, UserType } from "../../user.schema";
-import { UserRepository } from "../user.repository";
+import { CreateUserInputType, UserType } from "@user/user.schema";
+import { UserRepository } from "@user/repositories/user.repository";
 
 @injectable()
 export class PrismaUserRepository implements UserRepository {

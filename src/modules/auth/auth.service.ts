@@ -1,9 +1,9 @@
 import { inject, injectable } from "tsyringe";
-import { UserRepository } from "../user/repositories/user.repository";
-import { LoginInputType } from "./auth.schema";
 import { verify } from "argon2";
-import { AppError } from "./../../utils/errors/AppError";
-import { UserOutputType } from "../user/user.schema";
+import { LoginInputType } from "./auth.schema";
+import { AppError } from "@/utils/errors/AppError";
+import { UserOutputType } from "@user/user.schema";
+import { UserRepository } from "@user/repositories/user.repository";
 
 @injectable()
 export class AuthService {

@@ -1,4 +1,4 @@
-import { CreateUserInputType, UserType } from "../user.schema";
+import { CreateUserInputType, UserType } from "@user/user.schema";
 
 export interface UserRepository {
   create: (user: CreateUserInputType) => Promise<UserType>;

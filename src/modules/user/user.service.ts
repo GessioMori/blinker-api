@@ -2,7 +2,7 @@ import { inject, injectable } from "tsyringe";
 import { UserRepository } from "./repositories/user.repository";
 import { CreateUserInputType, UserOutputType } from "./user.schema";
 import { hash } from "argon2";
-import { AppError } from "./../../utils/errors/AppError";
+import { AppError } from "@/utils/errors/AppError";
 
 @injectable()
 export class UserService {
