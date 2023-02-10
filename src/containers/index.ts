@@ -1,8 +1,7 @@
-import { UserRepository } from "./../modules/user/repositories/user.repository";
-import { UserService } from "./../modules/user/user.service";
+import { UserRepository } from "@user/repositories/user.repository";
+import { UserService } from "@user/user.service";
 import { container } from "tsyringe";
-import { PrismaUserRepository } from "../modules/user/repositories/implementations/user.repository.prisma";
-import { AuthService } from "./../modules/auth/auth.service";
+import { PrismaUserRepository } from "@user/repositories/implementations/user.repository.prisma";
 
 // Repositories
 container.registerSingleton<UserRepository>(
@@ -12,4 +11,3 @@ container.registerSingleton<UserRepository>(
 
 // Services
 container.registerSingleton<UserService>("UserService", UserService);
-container.registerSingleton<AuthService>("AuthService", AuthService);

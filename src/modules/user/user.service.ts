@@ -1,7 +1,11 @@
 import { inject, injectable } from "tsyringe";
 import { UserRepository } from "./repositories/user.repository";
-import { CreateUserInputType, UserOutputType } from "./user.schema";
-import { hash } from "argon2";
+import {
+  CreateUserInputType,
+  UserLoginInputType,
+  UserOutputType,
+} from "./user.schema";
+import { hash, verify } from "argon2";
 import { AppError } from "@/utils/errors/AppError";
 
 @injectable()
@@ -18,7 +22,7 @@ export class UserService {
     const userExists = await this.userRepository.findByEmail(email);
 
     if (userExists) {
-      throw new AppError("User already exists", 400);
+      throw new AppError("Email already registered", 400);
     }
 
     const hashedPassword = await hash(password);
@@ -30,6 +34,27 @@ export class UserService {
     });
 
     const { password: _, ...parsedUser } = newUser;
+
+    return parsedUser;
+  }
+
+  async login({
+    email,
+    password,
+  }: UserLoginInputType): Promise<UserOutputType> {
+    const user = await this.userRepository.findByEmail(email);
+
+    if (!user) {
+      throw new AppError("Email or password incorrect", 400);
+    }
+
+    const passwordMatch = await verify(user.password, password);
+
+    if (!passwordMatch) {
+      throw new AppError("Email or password incorrect", 400);
+    }
+
+    const { password: _, ...parsedUser } = user;
 
     return parsedUser;
   }

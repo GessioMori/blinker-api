@@ -9,7 +9,6 @@
     "target": "es2020",
     "paths": {
       "@user/*": ["modules/user/*"],
-      "@auth/*": ["modules/auth/*"],
       "@/*": ["*"]
     },
     "baseUrl": "./src"

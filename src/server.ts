@@ -3,12 +3,8 @@ import "express-async-errors";
 import "./containers";
 import express from "express";
 import session from "express-session";
-import passport from "passport";
 import { userRouter } from "./modules/user/user.routes";
-import { authRouter } from "./modules/auth/auth.routes";
 import { errorHandler } from "./utils/errors/errorHandler";
-import connectRedis from "connect-redis";
-import { redisClient } from "./redis/redisClient";
 import { redisStore } from "./redis/redisStore";
 
 const app = express();
@@ -18,7 +14,7 @@ app.use(express.json());
 app.use(
   session({
     store: redisStore,
-    secret: "secret",
+    secret: process.env.REDIS_SECRET || "secret",
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -29,11 +25,7 @@ app.use(
   })
 );
 
-app.use(passport.initialize());
-app.use(passport.session());
-
 app.use("/user", userRouter);
-app.use("/auth", authRouter);
 
 app.use(errorHandler);
 

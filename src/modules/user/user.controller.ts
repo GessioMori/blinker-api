@@ -22,4 +22,26 @@ export class UserController {
 
     return response.status(201).json(newUser);
   }
+
+  async handleLogin(request: Request, response: Response): Promise<Response> {
+    const { email, password } = request.body;
+
+    const user = await this.userService.login({ email, password });
+
+    request.session.user = { email: user.email, id: user.id, name: user.name };
+
+    return response.status(200).json(user);
+  }
+
+  async handleLogout(request: Request, response: Response): Promise<void> {
+    request.session.destroy(() => {
+      return response.status(200).json({ message: "Logout successful" });
+    });
+  }
+
+  async handleGetUser(request: Request, response: Response): Promise<Response> {
+    const user = request.session.user;
+
+    return response.status(200).json(user);
+  }
 }
