@@ -3,6 +3,7 @@ import { UserRepository } from "./repositories/user.repository";
 import {
   CreateUserInputType,
   UserLoginInputType,
+  UserOutputSchema,
   UserOutputType,
 } from "./user.schema";
 import { hash, verify } from "argon2";
@@ -33,7 +34,7 @@ export class UserService {
       password: hashedPassword,
     });
 
-    const { password: _, ...parsedUser } = newUser;
+    const parsedUser = UserOutputSchema.parse(newUser);
 
     return parsedUser;
   }
@@ -54,7 +55,7 @@ export class UserService {
       throw new AppError("Email or password incorrect", 400);
     }
 
-    const { password: _, ...parsedUser } = user;
+    const parsedUser = UserOutputSchema.parse(user);
 
     return parsedUser;
   }

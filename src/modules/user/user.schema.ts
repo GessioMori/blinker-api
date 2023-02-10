@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 const UserBaseSchema = z.object({
-  name: z.string(),
-  email: z.string(),
+  name: z.string().min(3).max(50),
+  email: z.string().email(),
 });
 
 export const UserSchema = UserBaseSchema.extend({
@@ -11,7 +11,7 @@ export const UserSchema = UserBaseSchema.extend({
 });
 
 export const CreateUserInputSchema = UserBaseSchema.extend({
-  password: z.string().min(6),
+  password: z.string().min(8),
 });
 
 export const UserOutputSchema = UserBaseSchema.extend({
