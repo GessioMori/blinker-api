@@ -8,6 +8,8 @@ const UserBaseSchema = z.object({
 export const UserSchema = UserBaseSchema.extend({
   id: z.number(),
   password: z.string(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
 });
 
 export const CreateUserInputSchema = UserBaseSchema.extend({
@@ -24,7 +26,7 @@ export const UserLoginInputSchema = z.object({
 });
 
 export type UserType = z.infer<typeof UserSchema>;
-export type CreateUserInputType = Omit<UserType, "id">;
-export type UserOutputType = Omit<UserType, "password">;
+export type CreateUserInputType = z.infer<typeof CreateUserInputSchema>;
+export type UserOutputType = z.infer<typeof UserOutputSchema>;
 
 export type UserLoginInputType = z.infer<typeof UserLoginInputSchema>;
