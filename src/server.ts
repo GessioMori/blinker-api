@@ -6,6 +6,7 @@ import session from "express-session";
 import { userRouter } from "./modules/user/user.routes";
 import { errorHandler } from "./utils/errors/errorHandler";
 import { redisStore } from "./redis/redisStore";
+import { privateLinkRouter } from "@privateLink/privateLink.routes";
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use(
 );
 
 app.use("/user", userRouter);
+app.use("/pl", privateLinkRouter);
 
 app.use(errorHandler);
 

@@ -8,23 +8,26 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  id           Int           @id @default(autoincrement())
+  email        String        @unique
+  name         String
+  password     String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now()) @updatedAt
+  privateLinks PrivateLink[]
 
   @@map("users")
 }
 
-model Link {
+model PrivateLink {
   id        Int      @id @default(autoincrement())
-  url       String   @unique
+  url       String
   slug      String   @unique
   title     String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
 
-  @@map("links")
+  @@map("private-links")
 }

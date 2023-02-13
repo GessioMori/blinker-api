@@ -7,9 +7,11 @@ module.exports = {
     {
       "@/*": ["./*"],
       "@user/*": ["modules/user/*"],
+      "@privateLink/*": ["modules/privateLink/*"],
     },
     {
       prefix: "<rootDir>/src/",
     }
   ),
+  modulePathIgnorePatterns: ["<rootDir>/dist/"],
 };

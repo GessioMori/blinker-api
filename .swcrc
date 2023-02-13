@@ -9,6 +9,7 @@
     "target": "es2020",
     "paths": {
       "@user/*": ["modules/user/*"],
+      "@privateLink/*": ["modules/privateLink/*"],
       "@/*": ["*"]
     },
     "baseUrl": "./src"

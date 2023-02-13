@@ -19,6 +19,7 @@
     "skipLibCheck": true,
     "paths": {
       "@user/*": ["modules/user/*"],
+      "@privateLink/*": ["modules/privateLink/*"],
       "@/*": ["*"]
     }
   },
