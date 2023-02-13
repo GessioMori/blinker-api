@@ -4,6 +4,8 @@ import { container } from "tsyringe";
 import { PrivateLinkController } from "./privateLink.controller";
 import { validateRequest } from "zod-express-middleware";
 import { PrivateLinkBaseSchema } from "./privateLink.schema";
+import { z } from "zod";
+import { validateId } from "@/utils/parsers/params";
 
 const privateLinkController = container.resolve(PrivateLinkController);
 
@@ -37,15 +39,24 @@ privateLinkRouter.post(
   }),
   handleCreatePrivateLink
 );
-privateLinkRouter.get("/link/:id", handleGetPrivateLinkById);
+privateLinkRouter.get(
+  "/link/:id",
+  validateRequest(validateId),
+  handleGetPrivateLinkById
+);
 privateLinkRouter.get("/user/:userId", handleGetPrivateLinkByUserId);
 privateLinkRouter.put(
   "/:id",
   validateRequest({
     body: PrivateLinkBaseSchema,
+    ...validateId,
   }),
   handleUpdatePrivateLink
 );
-privateLinkRouter.delete("/:id", handleDeletePrivateLink);
+privateLinkRouter.delete(
+  "/:id",
+  validateRequest(validateId),
+  handleDeletePrivateLink
+);
 
 export { privateLinkRouter };

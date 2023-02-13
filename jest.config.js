@@ -14,4 +14,5 @@ module.exports = {
     }
   ),
   modulePathIgnorePatterns: ["<rootDir>/dist/"],
+  testTimeout: 20000,
 };

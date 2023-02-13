@@ -74,7 +74,7 @@ export class PrivateLinkController {
 
     await this.privateLinkService.delete(Number(id), request.session.user.id);
 
-    return response.status(204);
+    return response.status(204).send();
   }
 
   async handleRedirectPrivateLink(request: Request, response: Response) {
