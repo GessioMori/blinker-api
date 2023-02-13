@@ -10,7 +10,7 @@ const userController = container.resolve(UserController);
 const userRouter = Router();
 
 userRouter.post(
-  "/signup",
+  "/create",
   validateRequest({ body: CreateUserInputSchema }),
   userController.handleCreateUser.bind(userController)
 );

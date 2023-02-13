@@ -14,6 +14,19 @@ services:
     volumes:
       - pgdata:/data/postgres
 
+  testing-database:
+    image: postgres:14.1-alpine
+    container_name: blinker-pg-database-test
+    restart: always
+    ports:
+      - ${PG_TESTING_PORT}:5432
+    environment:
+      - POSTGRES_USER=${PG_USER}
+      - POSTGRES_PASSWORD=${PG_PASSWORD}
+      - POSTGRES_DB=${PG_TESTING_DB}
+    volumes:
+      - pgdata:/data/postgres
+
   redis:
     image: redis:alpine
     container_name: blinker-redis
