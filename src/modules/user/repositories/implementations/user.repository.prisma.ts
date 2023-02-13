@@ -1,9 +1,7 @@
 import prisma from "@/infra/db/prisma";
-import { injectable } from "tsyringe";
 import { CreateUserInputType, UserType } from "@user/user.schema";
 import { UserRepository } from "@user/repositories/user.repository";
 
-@injectable()
 export class PrismaUserRepository implements UserRepository {
   async create(user: CreateUserInputType): Promise<UserType> {
     return await prisma.user.create({
@@ -11,6 +9,7 @@ export class PrismaUserRepository implements UserRepository {
         name: user.name,
         email: user.email,
         password: user.password,
+        subscriptions: [],
       },
     });
   }

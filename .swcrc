@@ -10,6 +10,7 @@
     "paths": {
       "@user/*": ["modules/user/*"],
       "@privateLink/*": ["modules/privateLink/*"],
+      "@blogLink/*": ["modules/blogLink/*"],
       "@/*": ["*"]
     },
     "baseUrl": "./src"

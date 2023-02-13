@@ -7,6 +7,7 @@ import { userRouter } from "../../modules/user/user.routes";
 import { errorHandler } from "../../utils/errors/errorHandler";
 import { redisStore } from "../redis/redisStore";
 import { privateLinkRouter } from "@privateLink/privateLink.routes";
+import { blogLinkRouter } from "@/modules/blogLink/blogLink.routes";
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use(
 
 app.use("/user", userRouter);
 app.use("/pl", privateLinkRouter);
+app.use("/blog", blogLinkRouter);
 
 app.use(errorHandler);
 

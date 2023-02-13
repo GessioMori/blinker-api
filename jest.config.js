@@ -8,6 +8,7 @@ module.exports = {
       "@/*": ["./*"],
       "@user/*": ["modules/user/*"],
       "@privateLink/*": ["modules/privateLink/*"],
+      "@blogLink/*": ["modules/blogLink/*"],
     },
     {
       prefix: "<rootDir>/src/",

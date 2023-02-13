@@ -1,3 +1,4 @@
+import { BlogProviders } from "@blogLink/blogLink.schema";
 import { z } from "zod";
 
 const UserBaseSchema = z.object({
@@ -8,6 +9,7 @@ const UserBaseSchema = z.object({
 export const UserSchema = UserBaseSchema.extend({
   id: z.number(),
   password: z.string(),
+  subscriptions: z.array(BlogProviders),
   createdAt: z.date(),
   updatedAt: z.date(),
 });
