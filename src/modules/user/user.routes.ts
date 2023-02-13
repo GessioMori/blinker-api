@@ -1,4 +1,4 @@
-import { authMiddleware } from "@/middlewares/auth.middleware";
+import { authMiddleware } from "@/utils/middlewares/auth.middleware";
 import { Router } from "express";
 import { container } from "tsyringe";
 import { validateRequest } from "zod-express-middleware";

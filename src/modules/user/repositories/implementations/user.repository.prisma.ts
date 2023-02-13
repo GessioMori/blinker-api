@@ -1,4 +1,4 @@
-import prisma from "@/db/prisma";
+import prisma from "@/infra/db/prisma";
 import { injectable } from "tsyringe";
 import { CreateUserInputType, UserType } from "@user/user.schema";
 import { UserRepository } from "@user/repositories/user.repository";
