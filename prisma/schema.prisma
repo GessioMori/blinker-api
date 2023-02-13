@@ -35,6 +35,7 @@ model PrivateLink {
 
 enum Blog {
   DEVGO
+  TKDODO
 }
 
 model BlogLink {

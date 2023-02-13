@@ -3,7 +3,10 @@ import { Router } from "express";
 import { container } from "tsyringe";
 import { PrivateLinkController } from "./privateLink.controller";
 import { validateRequest } from "zod-express-middleware";
-import { PrivateLinkBaseSchema } from "./privateLink.schema";
+import {
+  PrivateLinkBaseSchema,
+  PrivateLinkInputUpdateSchema,
+} from "./privateLink.schema";
 import { z } from "zod";
 import { validateId } from "@/utils/parsers/params";
 
@@ -30,6 +33,7 @@ const handleRedirectPrivateLink =
 
 // Routes
 
+privateLinkRouter.get("/user", authMiddleware, handleGetPrivateLinkByUserId);
 privateLinkRouter.get("/:slug", handleRedirectPrivateLink);
 privateLinkRouter.use(authMiddleware);
 privateLinkRouter.post(
@@ -44,11 +48,11 @@ privateLinkRouter.get(
   validateRequest(validateId),
   handleGetPrivateLinkById
 );
-privateLinkRouter.get("/user/:userId", handleGetPrivateLinkByUserId);
+
 privateLinkRouter.put(
   "/:id",
   validateRequest({
-    body: PrivateLinkBaseSchema,
+    body: PrivateLinkInputUpdateSchema,
     ...validateId,
   }),
   handleUpdatePrivateLink

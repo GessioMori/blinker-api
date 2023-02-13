@@ -2,9 +2,11 @@ import { inject, injectable } from "tsyringe";
 import { UserRepository } from "./repositories/user.repository";
 import {
   CreateUserInputType,
+  UpdateSubscriptionsType,
   UserLoginInputType,
   UserOutputSchema,
   UserOutputType,
+  UserType,
 } from "./user.schema";
 import { hash, verify } from "argon2";
 import { AppError } from "@/utils/errors/AppError";
@@ -58,5 +60,40 @@ export class UserService {
     const parsedUser = UserOutputSchema.parse(user);
 
     return parsedUser;
+  }
+
+  async updateSubscriptions(
+    data: UpdateSubscriptionsType
+  ): Promise<UserOutputType> {
+    const user = await this.userRepository.findById(data.userId);
+
+    if (!user) {
+      throw new AppError("User not found", 404);
+    }
+
+    let updatedUser: UserType;
+
+    if (data.action === "add") {
+      if (user.subscriptions.includes(data.blogName)) {
+        throw new AppError("Subscription already exists", 400);
+      }
+      updatedUser = await this.userRepository.updateSubscriptions({
+        subscriptions: [...user.subscriptions, data.blogName],
+        userId: data.userId,
+      });
+    } else {
+      if (!user.subscriptions.includes(data.blogName)) {
+        throw new AppError("Subscription does not exist", 400);
+      }
+      updatedUser = await this.userRepository.updateSubscriptions({
+        subscriptions: user.subscriptions.filter(
+          (subscription) => subscription !== data.blogName
+        ),
+        userId: data.userId,
+      });
+    }
+
+    const parsedUpdatedUser = UserOutputSchema.parse(updatedUser);
+    return parsedUpdatedUser;
   }
 }

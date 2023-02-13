@@ -28,12 +28,33 @@ export class PrivateLinkService {
     });
   }
 
-  async findById(id: number): Promise<PrivateLinkType | null> {
-    return await this.privateLinkRepository.findById(id);
+  async findById({
+    id,
+    userId,
+  }: {
+    id: number;
+    userId: number;
+  }): Promise<PrivateLinkType | null> {
+    const link = await this.privateLinkRepository.findById(id);
+    if (!link) {
+      throw new AppError("Private link not found", 404);
+    }
+    if (link.userId !== userId) {
+      throw new AppError(
+        "You don't have permission to access this private link",
+        403
+      );
+    }
+    return link;
   }
 
-  async findBySlug(slug: string): Promise<PrivateLinkType | null> {
-    return await this.privateLinkRepository.findBySlug(slug);
+  async findBySlug(slug: string): Promise<PrivateLinkType> {
+    const link = await this.privateLinkRepository.findBySlug(slug);
+
+    if (!link) {
+      throw new AppError("Private link not found", 404);
+    }
+    return link;
   }
 
   async findByUserId(userId: number): Promise<PrivateLinkType[]> {

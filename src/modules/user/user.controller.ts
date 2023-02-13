@@ -28,7 +28,7 @@ export class UserController {
 
     const user = await this.userService.login({ email, password });
 
-    request.session.user = { email: user.email, id: user.id, name: user.name };
+    request.session.user = user;
 
     return response.status(200).json(user);
   }
@@ -41,6 +41,19 @@ export class UserController {
 
   async handleGetUser(request: Request, response: Response): Promise<Response> {
     const user = request.session.user;
+
+    return response.status(200).json(user);
+  }
+
+  async updateSubscription(request: Request, response: Response) {
+    const { id } = request.session.user;
+    const { blogName, action } = request.body;
+
+    const user = await this.userService.updateSubscriptions({
+      userId: Number(id),
+      blogName,
+      action,
+    });
 
     return response.status(200).json(user);
   }

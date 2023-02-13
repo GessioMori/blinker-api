@@ -29,7 +29,7 @@ app.use(
 
 app.use("/user", userRouter);
 app.use("/pl", privateLinkRouter);
-app.use("/blog", blogLinkRouter);
+app.use("/bl", blogLinkRouter);
 
 app.use(errorHandler);
 

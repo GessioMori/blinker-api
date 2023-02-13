@@ -23,12 +23,12 @@ export class PrivateLinkController {
 
   async handleGetPrivateLinkById(request: Request, response: Response) {
     const { id } = request.params;
+    const { id: userId } = request.session.user;
 
-    const privateLink = await this.privateLinkService.findById(Number(id));
-
-    if (!privateLink) {
-      return response.status(404).json({ message: "Private link not found" });
-    }
+    const privateLink = await this.privateLinkService.findById({
+      id: Number(id),
+      userId: Number(userId),
+    });
 
     return response.status(200).json(privateLink);
   }
@@ -38,19 +38,13 @@ export class PrivateLinkController {
 
     const privateLink = await this.privateLinkService.findBySlug(slug);
 
-    if (!privateLink) {
-      return response.status(404).json({ message: "Private link not found" });
-    }
-
     return response.status(200).json(privateLink);
   }
 
   async handleGetPrivateLinkByUserId(request: Request, response: Response) {
-    const { userId } = request.params;
+    const { id } = request.session.user;
 
-    const privateLinks = await this.privateLinkService.findByUserId(
-      Number(userId)
-    );
+    const privateLinks = await this.privateLinkService.findByUserId(Number(id));
 
     return response.status(200).json(privateLinks);
   }
@@ -81,10 +75,6 @@ export class PrivateLinkController {
     const { slug } = request.params;
 
     const privateLink = await this.privateLinkService.findBySlug(slug);
-
-    if (!privateLink) {
-      return response.status(404).json({ message: "Private link not found" });
-    }
 
     return response.redirect(privateLink.url);
   }

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const BlogProviders = z.enum(["DEVGO"]);
+export const BlogProviders = z.enum(["DEVGO", "TKDODO"]);
 
 const BlogLinkBaseSchema = z.object({
   title: z.string(),

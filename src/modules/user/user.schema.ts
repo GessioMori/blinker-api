@@ -20,6 +20,9 @@ export const CreateUserInputSchema = UserBaseSchema.extend({
 
 export const UserOutputSchema = UserBaseSchema.extend({
   id: z.number(),
+  subscriptions: z.array(BlogProviders),
+  createdAt: z.date(),
+  updatedAt: z.date(),
 });
 
 export const UserLoginInputSchema = z.object({
@@ -27,8 +30,17 @@ export const UserLoginInputSchema = z.object({
   password: z.string(),
 });
 
+export const UpdateSubscriptionsBaseSchema = z.object({
+  blogName: BlogProviders,
+  action: z.enum(["add", "remove"]),
+});
+
+export const UpdateSubscriptionsSchema = UpdateSubscriptionsBaseSchema.extend({
+  userId: z.number(),
+});
+
 export type UserType = z.infer<typeof UserSchema>;
 export type CreateUserInputType = z.infer<typeof CreateUserInputSchema>;
 export type UserOutputType = z.infer<typeof UserOutputSchema>;
-
+export type UpdateSubscriptionsType = z.infer<typeof UpdateSubscriptionsSchema>;
 export type UserLoginInputType = z.infer<typeof UserLoginInputSchema>;

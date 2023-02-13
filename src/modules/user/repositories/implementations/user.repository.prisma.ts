@@ -1,6 +1,8 @@
 import prisma from "@/infra/db/prisma";
 import { CreateUserInputType, UserType } from "@user/user.schema";
 import { UserRepository } from "@user/repositories/user.repository";
+import { BlogProvidersType } from "@blogLink/blogLink.schema";
+import { AppError } from "@/utils/errors/AppError";
 
 export class PrismaUserRepository implements UserRepository {
   async create(user: CreateUserInputType): Promise<UserType> {
@@ -26,6 +28,23 @@ export class PrismaUserRepository implements UserRepository {
     return await prisma.user.findUnique({
       where: {
         email,
+      },
+    });
+  }
+
+  async updateSubscriptions({
+    userId,
+    subscriptions,
+  }: {
+    userId: number;
+    subscriptions: BlogProvidersType[];
+  }): Promise<UserType> {
+    return await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        subscriptions,
       },
     });
   }

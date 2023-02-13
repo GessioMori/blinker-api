@@ -1,31 +1,40 @@
+import { authMiddleware } from "@/utils/middlewares/auth.middleware";
 import { Router } from "express";
-import { JSDOM } from "jsdom";
-import axios from "axios";
+import { container } from "tsyringe";
+import { z } from "zod";
+import { validateRequest } from "zod-express-middleware";
+import { BlogLinkController } from "./blogLink.controller";
+import { BlogProviders } from "./blogLink.schema";
 
 const blogLinkRouter = Router();
 
-blogLinkRouter.get("/", async (req, res) => {
-  const response = await axios({
-    url: "https://devgo.com.br/archive",
-    method: "GET",
-    responseType: "blob",
-  });
+const blogLinkController = container.resolve(BlogLinkController);
 
-  const dom = new JSDOM(response.data).window.document;
+const getBlogLinksByUser =
+  blogLinkController.handleGetBlogLinksByUser.bind(blogLinkController);
+const getBlogLinksByBlog =
+  blogLinkController.handleGetBlogLinksByBlog.bind(blogLinkController);
+const redirectBlogLink =
+  blogLinkController.handleRedirectBlogLink.bind(blogLinkController);
 
-  const links = dom.getElementsByClassName("css-1xasg5t");
-  const posts = [];
-
-  for (let i = 0; i < links.length; i++) {
-    posts.push({
-      title: links[i].textContent,
-      link: links[i].getAttribute("href"),
-    });
-  }
-
-  console.log(posts);
-
-  return res.send(links);
-});
+blogLinkRouter.get("/user", authMiddleware, getBlogLinksByUser);
+blogLinkRouter.get(
+  "/:slug",
+  validateRequest({
+    params: z.object({
+      slug: z.string(),
+    }),
+  }),
+  redirectBlogLink
+);
+blogLinkRouter.get(
+  "/blog/:blog",
+  validateRequest({
+    params: z.object({
+      blog: BlogProviders,
+    }),
+  }),
+  getBlogLinksByBlog
+);
 
 export { blogLinkRouter };

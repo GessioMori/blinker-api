@@ -5,6 +5,7 @@ import { inject, injectable } from "tsyringe";
 import {
   BlogLinkBaseType,
   BlogLinkType,
+  BlogProviders,
   BlogProvidersType,
 } from "./blogLink.schema";
 import { BlogLinkRepository } from "./repositories/blogLink.repository";
@@ -29,14 +30,17 @@ export class BlogLinkService {
     });
   }
 
-  async getBlogLinkBySlug(slug: string): Promise<BlogLinkType | null> {
-    return await this.blogLinkRepository.getBlogLinkBySlug(slug);
+  async getBlogLinkBySlug(slug: string): Promise<BlogLinkType> {
+    const blogLink = await this.blogLinkRepository.getBlogLinkBySlug(slug);
+    if (!blogLink) {
+      throw new AppError("Blog link not found", 404);
+    }
+    return blogLink;
   }
 
-  async getBlogLinksByProvider(
-    provider: BlogProvidersType
-  ): Promise<BlogLinkType[]> {
-    return await this.blogLinkRepository.getBlogLinksByProvider(provider);
+  async getBlogLinksByProvider(provider: string): Promise<BlogLinkType[]> {
+    const parsedProvider = BlogProviders.parse(provider);
+    return await this.blogLinkRepository.getBlogLinksByProvider(parsedProvider);
   }
 
   async getBlogLinksByUserId(userId: number): Promise<BlogLinkType[]> {

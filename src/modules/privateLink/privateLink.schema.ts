@@ -29,6 +29,11 @@ export const PrivateLinkUpdateSchema = PrivateLinkBaseSchema.extend({
   userId: z.number(),
 });
 
+export const PrivateLinkInputUpdateSchema = z.object({
+  title: z.string().min(3).max(50).optional(),
+  url: z.string().url().optional(),
+});
+
 export type PrivateLinkType = z.infer<typeof PrivateLinkSchema>;
 export type PrivateLinkRepositoryInputType = z.infer<
   typeof PrivateLinkRepositoryInputSchema

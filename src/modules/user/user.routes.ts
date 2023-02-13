@@ -3,7 +3,11 @@ import { Router } from "express";
 import { container } from "tsyringe";
 import { validateRequest } from "zod-express-middleware";
 import { UserController } from "./user.controller";
-import { CreateUserInputSchema, UserLoginInputSchema } from "./user.schema";
+import {
+  CreateUserInputSchema,
+  UpdateSubscriptionsBaseSchema,
+  UserLoginInputSchema,
+} from "./user.schema";
 
 const userController = container.resolve(UserController);
 
@@ -25,6 +29,13 @@ userRouter.get(
   "/me",
   authMiddleware,
   userController.handleGetUser.bind(userController)
+);
+
+userRouter.put(
+  "/subscription",
+  authMiddleware,
+  validateRequest({ body: UpdateSubscriptionsBaseSchema }),
+  userController.updateSubscription.bind(userController)
 );
 
 export { userRouter };
