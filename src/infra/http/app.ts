@@ -22,6 +22,8 @@ app.use(
     store: redisStore,
     secret: process.env.REDIS_SECRET || "secret",
     resave: false,
+    proxy: true,
+    name: "sid",
     saveUninitialized: false,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
