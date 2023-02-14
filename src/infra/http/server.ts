@@ -12,11 +12,11 @@ const handleUpdateLinks =
 const PORT = process.env.SERVER_PORT || 3000;
 
 app.listen(PORT, () => {
-  /* const scheduler = new ToadScheduler();
+  const scheduler = new ToadScheduler();
   const job = new SimpleIntervalJob(
     { seconds: 3600, runImmediately: true },
     new AsyncTask("Update Links", handleUpdateLinks)
   );
-  scheduler.addSimpleIntervalJob(job); */
+  scheduler.addSimpleIntervalJob(job);
   console.log(`Server is running on port ${PORT}`);
 });
