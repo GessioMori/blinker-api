@@ -37,7 +37,10 @@ describe("PrivateLinkService", () => {
       title: "Google",
     });
 
-    const privateLinkFound = await privateLinkService.findById(privateLink.id);
+    const privateLinkFound = await privateLinkService.findById({
+      id: privateLink.id,
+      userId: 1,
+    });
 
     expect(privateLinkFound).toHaveProperty("id");
     expect(privateLinkFound?.url).toBe("https://google.com");

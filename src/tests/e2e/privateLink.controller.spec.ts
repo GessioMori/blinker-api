@@ -110,7 +110,7 @@ describe("PrivateLinkController", () => {
     await request(app).post("/pl").set("Cookie", cookie).send(newLink2);
 
     const responseGetLinks = await request(app)
-      .get(`/pl/user/${loginResponse.body.id}`)
+      .get("/pl/user")
       .set("Cookie", cookie);
 
     expect(responseGetLinks.status).toBe(200);
