@@ -7,8 +7,6 @@ import { PrivateLinkBaseType } from "@privateLink/privateLink.schema";
 import request from "supertest";
 
 describe("PrivateLinkController", () => {
-  beforeAll(async () => {});
-
   afterAll(async () => {
     await prisma.$disconnect();
     await redisClient.disconnect();
