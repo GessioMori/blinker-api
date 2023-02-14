@@ -27,7 +27,7 @@ app.use(
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
-      sameSite: "lax",
+      sameSite: "none",
       domain:
         process.env.NODE_ENV === "production"
           ? process.env.PROD_DOMAIN

@@ -32,6 +32,6 @@ jobs:
             cd ~/blinker-backend
             cp ../env/blinker-backend/.env ./
             pnpm i
-            pnpm exec prisma migrate deploy
+            pnpm exec prisma db push
             pnpm build
             pm2 restart blinker-backend
