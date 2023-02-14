@@ -28,6 +28,10 @@ app.use(
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
       sameSite: "lax",
+      domain:
+        process.env.NODE_ENV === "production"
+          ? process.env.PROD_DOMAIN
+          : process.env.DEV_DOMAIN,
     },
   })
 );
