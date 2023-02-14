@@ -15,6 +15,8 @@ import { createRateLimiter, rateLimiter } from "./rateLimiter/rateLimiter";
 
 const app = express();
 
+app.set("trust proxy", 1);
+
 app.use(express.json());
 
 app.use(
@@ -24,7 +26,7 @@ app.use(
     resave: false,
     proxy: true,
     name: "sid",
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
       secure: process.env.NODE_ENV === "production",
