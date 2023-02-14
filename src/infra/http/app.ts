@@ -5,6 +5,7 @@ import swagger from "swagger-ui-express";
 import swaggerFile from "./swagger.json";
 import express from "express";
 import session from "express-session";
+import cors from "cors";
 import { userRouter } from "../../modules/user/user.routes";
 import { errorHandler } from "../../utils/errors/errorHandler";
 import { redisStore } from "../redis/redisStore";
@@ -23,9 +24,14 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-      secure: false,
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+      secure: process.env.NODE_ENV === "production",
       httpOnly: true,
+      domain:
+        process.env.NODE_ENV === "production"
+          ? process.env.PROD_DOMAIN
+          : process.env.DEV_DOMAIN,
+      sameSite: "lax",
     },
   })
 );
@@ -34,6 +40,15 @@ if (process.env.NODE_ENV !== "test") {
   createRateLimiter();
   app.use(rateLimiter);
 }
+
+const corsOptions = {
+  origin:
+    process.env.NODE_ENV !== "production"
+      ? `http://${process.env.DEV_DOMAIN}:${process.env.DEV_PORT}`
+      : `https://${process.env.PROD_DOMAIN}`,
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
 app.use("/api-docs", swagger.serve, swagger.setup(swaggerFile));
 app.use("/user", userRouter);
