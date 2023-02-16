@@ -48,13 +48,13 @@ export class UserService {
     const user = await this.userRepository.findByEmail(email);
 
     if (!user) {
-      throw new AppError("Email or password incorrect", 400);
+      throw new AppError("Email or password incorrect", 401);
     }
 
     const passwordMatch = await verify(user.password, password);
 
     if (!passwordMatch) {
-      throw new AppError("Email or password incorrect", 400);
+      throw new AppError("Email or password incorrect", 401);
     }
 
     const parsedUser = UserOutputSchema.parse(user);

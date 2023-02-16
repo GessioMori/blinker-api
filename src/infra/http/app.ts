@@ -23,7 +23,7 @@ app.use(
   session({
     store: redisStore,
     secret: process.env.REDIS_SECRET || "secret",
-    resave: false,
+    resave: true,
     proxy: true,
     name: "sid",
     saveUninitialized: false,
@@ -31,11 +31,7 @@ app.use(
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
-      sameSite: "none",
-      domain:
-        process.env.NODE_ENV === "production"
-          ? process.env.PROD_DOMAIN
-          : process.env.DEV_DOMAIN,
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     },
   })
 );

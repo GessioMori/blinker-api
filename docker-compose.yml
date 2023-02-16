@@ -28,11 +28,14 @@ services:
       - pgdata:/data/postgres
 
   redis:
-    image: redis:alpine
+    image: redis:alpine3.17
     container_name: blinker-redis
-    restart: always
+    environment:
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL,CONFIG
     ports:
       - ${REDIS_PORT}:6379
+    network_mode: bridge
+    restart: on-failure
 
 volumes:
   pgdata:
