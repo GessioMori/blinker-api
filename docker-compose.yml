@@ -34,8 +34,8 @@ services:
       - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL,CONFIG
     ports:
       - ${REDIS_PORT}:6379
-    network_mode: bridge
-    restart: on-failure
+    restart: always
+    command: sh -c 'redis-server --bind 0.0.0.0'
 
 volumes:
   pgdata:
