@@ -10,7 +10,7 @@ export function createRateLimiter() {
     storeClient: redisClient,
     keyPrefix: "rateLimiter",
     points: 10,
-    duration: 10,
+    duration: 2,
   });
 }
 

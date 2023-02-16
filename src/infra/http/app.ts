@@ -23,7 +23,7 @@ app.use(
   session({
     store: redisStore,
     secret: process.env.REDIS_SECRET || "secret",
-    resave: true,
+    resave: false,
     proxy: true,
     name: "sid",
     saveUninitialized: false,

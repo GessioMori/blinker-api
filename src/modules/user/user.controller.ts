@@ -55,6 +55,8 @@ export class UserController {
       action,
     });
 
+    request.session.user = user;
+
     return response.status(200).json(user);
   }
 }

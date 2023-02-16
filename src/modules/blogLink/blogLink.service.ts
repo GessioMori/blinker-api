@@ -49,6 +49,7 @@ export class BlogLinkService {
     if (!user) {
       throw new AppError("User not found", 404);
     }
+
     for (const blog of user.subscriptions) {
       blogLinks.push(...(await this.getBlogLinksByProvider(blog)));
     }
